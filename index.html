@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>webseries-playlist-vivah</title>
+  <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+  <script src="https://vjs.zencdn.net/7.11.4/video.js"></script>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    
+    <h1 class="movie-n">Vivah-full movie </h1>
+  <div class="video-container">
+    <div class="video-player">
+      <video id="my-video" class="video-js vjs-default-skin" controls autoplay muted ="auto" width="960" height="560">
+        <source src="file:///C:/Users/ASUS/Downloads/videos%20downloaded/movies/Tere%20Naal%20Love%20Hogaya.mp4" type="video/mp4" />
+        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that supports HTML5 video</p>
+      </video>
+      <h2 class="video-title"></h2> <!-- Added title element -->
+      <button class="video-button" id="backward-button"></button>
+      <button class="video-button" id="forward-button"></button>
+        
+        <span class="theater-mode-icon"></span></button>
+        <span class="shuffle-icon"></span></button>
+      
+      
+    </div>
+    <div class="playlist-container">
+      <ul class="playlist" id="video-list"></ul>
+    </div>
+  
+   
+  </div>
+
+  <script>
+    var player = videojs('my-video');
+
+    var playbackRates = [0.91, 1, 1.25, 1.5, 2];
+    var playbackRateMenuButton = player.controlBar.addChild('PlaybackRateMenuButton', {
+      playbackRates: playbackRates,
+      playbackRate: 1,
+      className: 'vjs-custom-playback-rate'
+    });
+
+    // Set the default playback rate to 1x
+    player.playbackRate(1);
+
+    var playlist = [
+      { src: 'Vivah Hindi Movie _ (Part 1_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movies.mp4', type: 'video/mp4', title: 'Vivah part-1', thumbnail: '' },
+      { src: 'Vivah Hindi Movie _ (Part 2_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movies.mp4', type: 'video/mp4', title: 'Vivah part-2', thumbnail: '' },
+
+      { src: 'Vivah Hindi Movie _ (Part 3_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movies.mp4', type: 'video/mp4', title: 'Vivah part-3', thumbnail: '' },
+
+      { src: 'Vivah Hindi Movie _ (Part 4_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movies.mp4', type: 'video/mp4', title: 'Vivah part-4', thumbnail: '' },
+
+      { src: 'Vivah Hindi Movie _ (Part 5_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movies.mp4', type: 'video/mp4', title: 'Vivah part-5', thumbnail: '' },
+
+      { src: 'Vivah Hindi Movie _ (Part 6_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movies.mp4', type: 'video/mp4', title: 'Vivah part-6', thumbnail: '' },
+
+      { src: 'Vivah Hindi Movie _ (Part 7_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movies.mp4', type: 'video/mp4', title: 'Vivah part-7', thumbnail: '' },
+
+      { src: 'Vivah Hindi Movie _ (Part 8_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movies.mp4', type: 'video/mp4', title: 'Vivah part-8', thumbnail: '' },
+
+      { src: 'Vivah Hindi Movie _ (Part 9_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movies.mp4', type: 'video/mp4', title: 'Vivah part-9', thumbnail: '' },
+
+      { src: 'Vivah Hindi Movie _ (Part 10_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movie.mp4', type: 'video/mp4', title: 'Vivah part-10', thumbnail: '' },
+
+
+      { src: 'Vivah Hindi Movie _ (Part 11_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movie.mp4', type: 'video/mp4', title: 'Vivah part-11', thumbnail: '' },
+
+    
+      { src: 'Vivah Hindi Movie _ (Part 12_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movie.mp4', type: 'video/mp4', title: 'Vivah part-12', thumbnail: '' },
+      { src: 'Vivah Hindi Movie _ (Part 13_14) _ Shahid Kapoor, Amrita Rao _ Romantic Bollywood Family Drama Movie.mp4', type: 'video/mp4', title: 'Vivah part-13', thumbnail: '' },
+
+      { src: 'Vivah Hindi Movie   (Part 14 14)   Shahid Kapoor, Amrita Rao   Romantic Bollywood Family Drama Movie.mp4', type: 'video/mp4', title: 'Vivah part-14', thumbnail: '' },
+
+
+        ];
+
+    var currentVideoIndex = 0;
+var isShuffleEnabled = false;
+var isTheaterModeEnabled = false;
+
+player.on('ended', function() {
+  playNextVideo();
+});
+
+function playNextVideo() {
+  if (isShuffleEnabled) {
+    currentVideoIndex = getRandomIndex();
+  } else {
+    currentVideoIndex++;
+    if (currentVideoIndex === playlist.length) {
+      currentVideoIndex = 0; // Start from the beginning if all videos have played
+    }
+  }
+
+  player.src(playlist[currentVideoIndex].src);
+  player.play();
+  updateVideoList();
+}
+
+function getRandomIndex() {
+  var randomIndex = Math.floor(Math.random() * playlist.length);
+  if (randomIndex === currentVideoIndex) {
+    randomIndex = getRandomIndex(); // Ensure a different video is chosen
+  }
+  return randomIndex;
+}
+
+function updateVideoList() {
+  var videoList = document.getElementById('video-list');
+  videoList.innerHTML = '';
+
+  for (var i = 0; i < playlist.length; i++) {
+    var listItem = document.createElement('li');
+    var link = document.createElement('a');
+    link.href = playlist[i].src;
+
+    // Create thumbnail element
+    var thumbnail = document.createElement('img');
+    thumbnail.src = playlist[i].thumbnail;
+    thumbnail.alt = playlist[i].title;
+    thumbnail.classList.add('thumbnail');
+
+    // Create title element
+    var title = document.createElement('h3');
+    title.textContent = playlist[i].title;
+    title.classList.add('title');
+
+    // Add click event listener to load and play the selected video
+    link.addEventListener('click', function(index) {
+      return function(e) {
+        e.preventDefault();
+        currentVideoIndex = index;
+        player.src(playlist[currentVideoIndex].src);
+        player.play();
+        updateVideoList();
+      };
+    }(i));
+
+    link.appendChild(thumbnail);
+    link.appendChild(title);
+
+    if (i === currentVideoIndex) {
+      link.classList.add('current');
+      document.querySelector('.video-title').textContent = playlist[i].title;
+    }
+
+    listItem.appendChild(link);
+    videoList.appendChild(listItem);
+  }
+}
+
+function toggleShuffle() {
+  isShuffleEnabled = !isShuffleEnabled;
+  document.querySelector('.shuffle-button').classList.toggle('active', isShuffleEnabled);
+}
+
+function toggleTheaterMode() {
+  isTheaterModeEnabled = !isTheaterModeEnabled;
+  document.querySelector('.theater-mode-button').classList.toggle('active', isTheaterModeEnabled);
+  var videoContainer = document.querySelector('.video-container');
+  videoContainer.classList.toggle('theater-mode', isTheaterModeEnabled);
+  if (isTheaterModeEnabled) {
+    player.requestFullscreen(); // Enter fullscreen mode
+  } else {
+    player.exitFullscreen(); // Exit fullscreen mode
+  }
+
+}
+player.src(playlist[currentVideoIndex].src);
+player.play();
+updateVideoList();
+
+
+    var backwardButton = document.getElementById('backward-button');
+    var forwardButton = document.getElementById('forward-button');
+
+    backwardButton.addEventListener('click', function() {
+      player.currentTime(player.currentTime() - 10);
+    });
+
+    forwardButton.addEventListener('click', function() {
+      player.currentTime(player.currentTime() + 10);
+    });
+
+    document.addEventListener('keydown', function(event) {
+      if (event.keyCode === 37) { // Left arrow key
+        player.currentTime(player.currentTime() - 10);
+      } else if (event.keyCode === 39) { // Right arrow key
+        player.currentTime(player.currentTime() + 10);
+      } else if (event.keyCode === 32) { // Spacebar
+        if (player.paused()) {
+          player.play();
+        } else {
+          player.pause();
+        }
+      }
+    });
+
+  </script>
+<style>
+
+  .playlist-container {
+  flex: 0 0 300px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto; /* Added to enable vertical scrolling */
+}
+
+.playlist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.video-item {
+  display: flex;
+  align-items: flex-start; /* Adjusted alignment */
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px; /* Added margin between videos */
+
+}
+
+.thumbnail {
+  width: 120px; /* Adjusted thumbnail width */
+  height: 90px; /* Adjusted thumbnail height */
+  flex-shrink: 0; /* Added to prevent thumbnail from shrinking */
+  margin-right: 10px; /* Added margin between thumbnail and details */
+}
+
+.video-details {
+  flex-grow: 1; /* Allow details to occupy remaining space */
+}
+
+.video-title {
+  font-weight: bold;
+  margin-top: 0;
+  color:azure;
+}
+
+.video-description {
+  margin-top: 5px;
+}
+
+.shuffle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.shuffle-button.active {
+  background-color: #28a745;
+}
+
+.shuffle-button:hover {
+  background-color: #0056b3;
+}
+
+.shuffle-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('file:///C:/Users/ASUS/Downloads/icons8-shuffle-50.png');
+  background-size: cover;
+  margin-right: 10px;
+}
+.theater-mode-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-right: 10px; /* Added margin between buttons */
+}
+
+.theater-mode-button.active {
+  background-color: #28a745;
+}
+
+.theater-mode-button:hover {
+  background-color: #0056b3;
+}
+
+.theater-mode-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('file:///C:/Users/ASUS/Downloads/icons8-movie-theater-50.png'); /* Replace with the path to your theater mode icon */
+  background-size: cover;
+  margin-right: 10px;
+}
+
+.video-container.theater-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  z-index: 9999;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.video-container.theater-mode .video-player {
+  flex: 1;
+  border: none;
+}
+
+.video-container.theater-mode .playlist-container {
+  display: none;
+}
+  </style>
+
+</body>
+
+</html>

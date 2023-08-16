@@ -1,0 +1,35 @@
+.video-container{
+    background-color:#222123 ;
+    padding: 0 250px 0 250px;
+}
+
+body{
+background-color:#222123 ;
+}
+
+.my-video{
+align-items: center;
+flex-basis: 30%;
+
+}
+.video-player{
+    
+    border-color: 2px bold aqua;
+}
+h1{
+    color: rgb(6, 178, 255);
+
+}
+
+.movie-n {
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+    width: 99%;
+    height: 3%;
+    background-color:#222123;
+}
+
+.video-js vjs-default-skin{
+
+    width: 100% rgb(48, 48, 48);
+}
